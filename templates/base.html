@@ -1,0 +1,16 @@
+{% include base_header.html %}
+
+{% block body %}
+<body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+{% block header %}{% endblock %}
+{% block menu %}{% endblock %}
+{% block content %}
+{% block content_title %}{% endblock %}
+{% endblock %}
+{% block sidebar %}{% endblock %}
+
+</body>
+{% endblock %}
+
+
+{% include base_footer.html %}
