@@ -1,0 +1,22 @@
+{% if object.course %}
+    <td>{{ object.course.short_name_space }}</td>
+{% else %}
+    <td class="incomplete">&nbsp;</td>
+{% endif %}
+
+{% if object.semester %}
+    <td>{{ object.semester.abbr }}</td>
+{% else %}
+    <td class="incomplete">&nbsp;</td>
+{% endif %}
+
+{% if object.updated_instructor_names|length_is:"0" %}
+    <td class="incomplete">&nbsp;</td>
+{% else %}
+    <td>{{ object.instructor_names}}</td>
+{% endif %}
+
+{% comment %}<td>{{ object.submitted|date:"l m/d g:ia" }}</td>{% endcomment %}
+<td>{{ object.submitted|date:"M d" }}</td>
+<td><a href="{% url exam-edit object.pk %}">{{ object.file.name }}</a></td>
+<td>{{ object.comment }}</td>

@@ -1,0 +1,45 @@
+{% extends "exam/base.html" %}
+
+{% load fieldset %}
+
+{% block title %}Submit Exam | {{block.super}}{% endblock %}
+
+{% block subtitle %}Submit Exam{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+{% with form as original_form %}
+<form enctype="multipart/form-data" action="" method="post">
+    <fieldset>
+        <legend>Class Information</legend>
+        {% get_fieldset course,instructor1,instructor2,instructor3,semester as form from original_form %}
+        {% include "form_snippet.html" %}
+    </fieldset>
+
+    <fieldset>
+        <legend>Exam Information</legend>
+        {% get_fieldset exam_type,number,version,has_solutions as form from original_form %}
+        {% include "form_snippet.html" %}
+    </fieldset>
+    <fieldset>
+        <legend>Exam File</legend>
+        {% get_fieldset exam_file,comment as form from original_form %}
+        {% include "form_snippet.html" %}
+    </fieldset>
+
+    {% if user.is_superuser %}
+    <fieldset>
+        <legend>Administrative</legend>
+        {% get_fieldset complete,publishable as form from original_form %}
+        {% include "form_snippet.html" %}
+    </fieldset>    
+    {% endif %}
+
+    <input class="button" type=submit value = "Submit!" />
+</form>
+{% endwith %}
+{% endblock %}

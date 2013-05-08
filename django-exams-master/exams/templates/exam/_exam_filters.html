@@ -1,0 +1,36 @@
+{% spaceless %}
+<fieldset>
+<legend>Search Exams</legend>
+<div class="filters">
+    <p>Don't know the abbreviation for a department? Try the <a href="{% url course-department-abbreviations %}">departmental abbreviations</a> page.</p>
+    <div class="column">
+        <div id="field_department">
+            <label for="id_department_query">Department</label>
+            <input type="text" class="ajaxinfo" autocomplete="off" name="exam_department" id="id_department_query" value="{{ exam_department }}"/>
+            <div class="small">Search for departments like "BIO" or "Computer Science"</div>
+        </div>
+    </div>
+    <div class="column">
+        <div id="field_coursenumber">
+            <label for="id_coursenumber_query">Course Number</label>
+            <input type="text" class="ajaxinfo" autocomplete="off" name="exam_coursenumber" id="id_coursenumber_query" value="{{ exam_coursenumber }}"/>
+            <div class="small">The course number like "1B" or "C281A"</div>
+        </div>
+    </div>
+    <div class="column">
+        <div id="field_instructor">
+            <label for="id_instructor_query">Instructor</label>
+            <input type="text" class="ajaxinfo" autocomplete="off" name="exam_instructor" id="id_instructor_query" value="{{ exam_instructor }}"/>
+            <div class="small">(optional) Refine search by specifying an instructor</div>
+        </div>
+    </div>
+	<div><label>&nbsp;</label></div>
+	<div><label>&nbsp;</label></div>
+	<div style="float: right; text-align: right; padding-right: 20px;" id="field_submit">
+            <a id="id_filter_link" href="">Search</a>
+    </div>
+    <div style="clear: both"> </div>
+</div>
+<div style="clear: both"> </div>
+</fieldset>
+{% endspaceless %}

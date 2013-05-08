@@ -1,0 +1,34 @@
+{% load cache %}
+
+{% comment %}
+{% cache 500 departments_view %}
+{% endcomment %}
+    <br/>
+    {% for dept in departments %}
+    <div id="dept_{{dept.pk}}">
+    <div class="department_heading">
+        <a class="department" href="javascript:void(0)" onclick="javascript:ajaxlist.update('exam_department', '{{dept.name}}', 'set');"><h2>{{dept.name}}</h2></a>
+    </div>
+    <div class="department_courses">{{dept.published_exam_count}} exams</div>
+    <div style="clear: both"></div>
+
+    <div class="department_links">
+        <a href="#" onclick="javascript:togglePopularCourses('{{dept.pk}}'); return false;">View Popular Courses</a> | <a href="javascript:void(0)" onclick="ajaxlist.update('exam_department', '{{dept.name}}', 'set');">View All Courses</a>
+    </div>
+    <div id="courses_{{dept.pk}}" class="courses_wrapper" style="display: none">
+        <ul class="courses">
+        {% for course in dept.course_set.all.annotate_exam_count.get_top_courses_by_published_exams %}
+            <li {% if forloop.last %}class="last"{% endif %}><a href="javascript:void(0)" onclick="javascript:ajaxlist.update('exam_department', '{{dept.name}}', 'set', undefined, true); ajaxlist.update('exam_coursenumber_exact', '{{course.coursenumber}}', 'set');">{{course.short_name_space}}</a> &#151; {{course.published_exam_count}} exam{{ course.published_exam_count|pluralize:"s" }}</li>
+        {% endfor %}
+        </ul>
+        <div class="clear"></div>
+        <div class="links"><a href="#" onclick="javascript:togglePopularCourses('{{dept.pk}}'); return false;">Hide</a> | <a href="javascript:void(0)" onclick="javascript:ajaxlist.update('exam_department', '{{dept.name}}');" >All {{dept.name}} Courses &#187;</a></div>
+        <br/>
+    </div>
+    </div>
+    <div class="browse_clear"> &nbsp; </div>
+    {% endfor %}
+    <br/><br/>
+{% comment %}
+{% endcache %}
+{% endcomment %}

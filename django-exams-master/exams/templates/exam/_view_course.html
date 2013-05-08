@@ -1,0 +1,52 @@
+{% load cache %}
+
+{% comment %}
+{% cache 500 exam_department exam_coursenumber exam_instructor exam_after  %}    
+{% endcomment %}
+    <div> &nbsp; </div>
+    <h2> {{ course.long_name }}</h1>
+    <div> &nbsp; </div>
+    <div class="exam_course" style="margin-left: 7px">
+        <table class="display exam ajaxtable">
+            <tr>
+                <th>Semester</th>
+                <th>Instructor</th>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+            </tr>
+            {% for semester_instructor, exam_groups in exams.items %}
+            <tr class="{% cycle 'even' 'odd' %}">
+    {% comment %}
+                {{ semester_instructor}}
+                {{exam_groups}}
+    {% endcomment %}
+                <td class="semester">{{ semester_instructor.0 }}</td>
+                <td class="instructor"><a href="javascript:void(0)" onclick="javascript:ajaxlist.update('exam_instructor', '{{ semester_instructor.1 }}', 'set');"> {{ semester_instructor.1|title }}</a></td>
+                {% for exam_type, exam_objects in exam_groups.items %}
+                <td class="exam" exam_type="{{exam_type}}">
+                    {% for exam in exam_objects %}
+                      {% if exam.file %}
+                          {% if exam.has_solutions %}
+                          <a href="{{exam.file.url}}">[solution]</a>
+                          {% else %}
+                          <a href="{{exam.file.url}}">[{{exam.get_exam_format}}]</a>
+                          {% endif %}
+                      {% else %}
+                          {% if exam.has_solutions %}
+                          <a href="#">[solution]</a>
+                          {% else %}
+                          <a href="#">[?]</a>
+                          {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    <br/>
+    </div>
+{% comment %}
+{% endcache %}
+{% endcomment %}

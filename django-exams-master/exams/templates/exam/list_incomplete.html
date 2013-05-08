@@ -1,0 +1,21 @@
+{% extends "exam/base.html" %}
+
+{% load ajaxtable %}
+
+{% block title %}Incomplete Exams | {{block.super}}{% endblock %}
+
+{% block subtitle %}Incomplete Exams{% endblock %}
+
+{% block content %}
+    <div class="spacer"> &nbsp; </div>
+    {% ajaxwrapper incompletes %}
+        {% if incompletes %}
+            {% control spinner %}
+            {% control pager %}
+            {% ajaxtable incompletes "exam/_incomplete_header.html" "exam/_incomplete_row.html" %}
+            {% control pager %}
+        {% else %}
+            <p>No results found!</p>
+        {% endif %}
+    {% endajaxwrapper %}
+{% endblock %}

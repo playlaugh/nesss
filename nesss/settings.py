@@ -144,11 +144,14 @@ INSTALLED_APPS = (
     #  db #    
     'south',
     
-    #  #
+    # accounts #
     'apps.userena',
     'guardian',
     'easy_thumbnails',
-    'apps.accounts'
+    'apps.accounts',
+    
+    #tag
+    'taggit',
 )
 
 # Add the Guardian and userena authentication backends

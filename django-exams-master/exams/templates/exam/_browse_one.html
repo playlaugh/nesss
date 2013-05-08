@@ -1,0 +1,25 @@
+{% load partition %}
+{% load cache %}
+
+{% comment %}
+{% cache 500 one_department cache_key %}
+{% endcomment %}
+    <h2>{{department.name}}</h2>
+    {% if courses|length_is:"0" %}
+        <p class="error">No exams available for this department.</p>
+    {% else %}
+    {% for courses_list in courses|partition:"3" %}
+    <div class="browse_wrapper">
+        <ol class="browse_ol">
+          {% for course in courses_list %}
+              <li><a href="javascript:void(0)" onclick="javascript:ajaxlist.update('exam_department', '{{department.name}}', 'set', undefined, true); ajaxlist.update('exam_coursenumber_exact', '{{course.coursenumber}}', 'set');">{{course.short_name_space}}</a>  &#151; {{course.published_exam_count}} exam{{ course.published_exam_count|pluralize:"s" }}</li>
+          {% endfor %}
+        </ol>
+    </div>
+    {% endfor %}
+    <div class="browse_clear" > &nbsp; </div>
+    <br />
+    {% endif %}
+{% comment %}
+{% endcache %}
+{% endcomment %}

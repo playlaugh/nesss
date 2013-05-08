@@ -1,0 +1,50 @@
+{% extends "exam/base.html" %}
+{% load ajaxtable %}
+
+
+{% block title %}Search Exams | {{block.super}}{% endblock %}
+
+{% block subtitle %}Search Exams{% endblock %}
+
+{% block content %}
+<p class="error">We're still loading all of our exams into this database, so if you can't find something sit tight or <a href="mailto:hzarka@gmail.com">ask us</a> to check! If you have exams and would like to help out, please let <a href="mailto:hzarka@gmail.com">Hisham Zarka</a> know</p>
+
+{% include "exam/_exam_filters.html" %}
+{% control spinner %}
+
+{% comment %}
+{% if view_unpublished %}
+	<h1 class="warning">Viewing unpublished exams</h1>
+{% endif %}
+{% endcomment %}
+
+{% ajaxwrapper exams %}
+    {% if filter_descriptions %}
+        {% if filter_descriptions|length_is:"1" %}
+            <p>You searched for exams {{ filter_descriptions.0.1 }} [<a href="" onclick="javascript:ajaxlist.update('{{filter_descriptions.0.0}}', ''); return false;">remove</a>].</p>
+        {% else %}
+            <p>You searched for exams:</p>
+            <ul>
+                {% for f in filter_descriptions %}<li>{{f.1}} [<a href="" onclick="javascript:ajaxlist.update('{{f.0}}', ''); return false;">remove</a>]</li>{% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <p class="success">Please search using the controls above, or browse below.</p>
+    {% endif %}
+    {% if filter_errors %}
+        <p>There were errors with your search:</p>
+            <ul>
+                {% for f in filter_errors %}<li>{{f.1}} [<a href="" onclick="javascript:ajaxlist.update('{{f.0}}', ''); return false;">remove filter</a>]</li>{% endfor %}
+            </ul>
+    {% endif %}
+{% if no_results %}
+    <p class="error">There were no exams that matched your query.</p>
+{% else %}
+    {% include template %}
+{% endif %}
+<script type="text/javascript">
+    $(document).ready( register_exam_listeners );
+</script>        
+{% endajaxwrapper %}
+
+{% endblock %}	

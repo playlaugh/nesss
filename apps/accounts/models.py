@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from taggit.managers import TaggableManager
 from apps.userena.models import UserenaLanguageBaseProfile
 from apps.userena.utils import user_model_label
+
 
 import datetime
 
@@ -25,6 +27,7 @@ class Profile(UserenaLanguageBaseProfile):
     website = models.URLField(_('website'), blank=True)
     location =  models.CharField(_('location'), max_length=255, blank=True)
     birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    tags = TaggableManager()
     about_me = models.TextField(_('about me'), blank=True)
 
     @property
